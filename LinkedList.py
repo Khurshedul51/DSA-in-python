@@ -54,7 +54,7 @@ class LinkedList:
             else:
                 next_of_searched_node = searched_node._next
                 searched_node._next = Node(value, next_node=next_of_searched_node)
-            self.__no_of_nodes += 1
+                self.__no_of_nodes += 1
         else:
             raise ValueError('value of [arg: after] is not found')
 
@@ -66,7 +66,34 @@ class LinkedList:
             current_node = current_node._next
         return None
     
+    def remove(self, value):
+        pass
+
+    def clear(self):
+        self.__head = None
+        self.__tail = None
+        self.__no_of_nodes = 0
     
+    def delete_head(self):
+        if not self.is_empty():
+            self.__head = self.__head._next
+            self.__no_of_nodes -= 1
+    
+    def delete_tail(self):
+        """deletes the nodes from the last"""
+        if not self.is_empty():
+            current_node = self.__head
+            if current_node._next != None:
+                second_last_node = None
+                while current_node._next._next != None:
+                    current_node = current_node._next
+                current_node._next = None
+                self.__tail = current_node
+            else:
+                self.__head = None
+                self.__tail = None
+            self.__no_of_nodes -= 1
+
 
     def get_last_value(self):
         return self.__tail._data
@@ -90,11 +117,20 @@ linked_list = LinkedList()
 # print(linked_list.get_last_value())
 linked_list.append(12)
 linked_list.append('sakib')
+# linked_list.append('didar')
 linked_list.insert_after(12, 'rakib')
-linked_list.insert_after('skib', 89)
+# linked_list.insert_after('sakib', 89)
+
 print(len(linked_list))
 print(linked_list)
-print(linked_list.get_first_value())
+# print(linked_list.get_first_value())
 print(linked_list.is_empty())
-
-print(linked_list.search_node_by_value('sakib'))
+# linked_list.delete_head()
+# linked_list.delete_head()
+# linked_list.delete_head()
+linked_list.delete_tail()
+linked_list.delete_tail()
+linked_list.delete_tail()
+print(linked_list)
+print(len(linked_list))
+# print(linked_list.search_node_by_value('sakib'))
