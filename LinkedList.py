@@ -24,6 +24,18 @@ class LinkedList:
             return f'[{linked_list_str}]'
         else:
             return '[]'
+    
+    def __getitem__(self, index):
+        if self.is_empty(): raise Exception('List is empty')
+        if index < 0 or index >= self.__no_of_nodes: raise IndexError('index is out of range')
+        current_node = self.__head
+        current_index = 0
+        while current_node != None:
+            if current_index == index:
+                return current_node._data
+            current_node = current_node._next
+            current_index += 1
+
 
     
     def insert_head(self, value):
@@ -66,8 +78,37 @@ class LinkedList:
             current_node = current_node._next
         return None
     
+    def search_index_by_value(self, value) -> int:
+        current_node = self.__head
+        index = -1
+        while current_node != None:
+            if current_node._data == value:
+                return index + 1
+            current_node = current_node._next
+            index += 1
+        return -1
+
+
+    
     def remove(self, value):
-        pass
+        if self.is_empty(): raise AttributeError('List is empty')
+        if self.__no_of_nodes == 1:
+            self.__head = None
+            self.__tail = None
+            return
+        if self.__head._data == value:
+            self.delete_head()
+        elif self.__tail._data == value:
+            self.delete_tail()
+        else:
+            current_node = self.__head
+            while current_node != None:
+                if current_node._next._data == value:
+                    current_node._next = current_node._next._next
+                    self.__no_of_nodes -= 1
+                    return
+                current_node = current_node._next
+            raise ValueError('value not found')
 
     def clear(self):
         self.__head = None
@@ -76,6 +117,8 @@ class LinkedList:
     
     def delete_head(self):
         if not self.is_empty():
+            if self.__no_of_nodes == 1:
+                self.__tail = None
             self.__head = self.__head._next
             self.__no_of_nodes -= 1
     
@@ -84,7 +127,6 @@ class LinkedList:
         if not self.is_empty():
             current_node = self.__head
             if current_node._next != None:
-                second_last_node = None
                 while current_node._next._next != None:
                     current_node = current_node._next
                 current_node._next = None
@@ -96,12 +138,12 @@ class LinkedList:
 
 
     def get_last_value(self):
-        return self.__tail._data
+        return self.__tail._data if self.__tail is not None else None
     def get_last_node(self):
         return self.__tail
     
     def get_first_value(self):
-        return self.__head._data
+        return self.__head._data if self.__head is not None else None
     def get_first_node(self):
         return self.__head
     
@@ -128,9 +170,16 @@ print(linked_list.is_empty())
 # linked_list.delete_head()
 # linked_list.delete_head()
 # linked_list.delete_head()
-linked_list.delete_tail()
-linked_list.delete_tail()
-linked_list.delete_tail()
-print(linked_list)
-print(len(linked_list))
+# linked_list.delete_tail()
+# linked_list.delete_tail()
+# linked_list.delete_tail()
+# linked_list.remove(12)
+# linked_list.remove('sakib')
+# linked_list.remove('rakib')
+# print(linked_list)
+# print(len(linked_list))
+# print(f'head data: {linked_list.get_first_value()}')
+# print(f'tail data: {linked_list.get_last_value()}')
 # print(linked_list.search_node_by_value('sakib'))
+print(linked_list.search_index_by_value(45))
+print(linked_list[-1])
